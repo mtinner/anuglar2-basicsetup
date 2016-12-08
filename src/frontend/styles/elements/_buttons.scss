@@ -1,0 +1,16 @@
+.btn {
+  background-color: $helsana;
+  cursor: pointer;
+  border: none;
+  border-radius: 2px;
+  color: white;
+
+  &:hover {
+    background-color: $helsana-hover;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
