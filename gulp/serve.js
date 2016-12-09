@@ -1,16 +1,12 @@
-module.exports = function (gulp, data, util, taskName) {
+module.exports = function(gulp, data, util, taskName) {
 
     var server = require('gulp-express');
 
-    gulp.task(taskName + ':Dist', function () {
-        return server.run([data.path.dist + 'server.js'], {}, {});
+    gulp.task(taskName, function() {
+        return server.run([process.env.destination + 'server.js'], {}, {});
     });
 
-    gulp.task(taskName + ':E2e', function () {
-        return server.run([data.path.tmpE2e + 'server.js'], {}, false);
-    });
-
-    gulp.task(taskName + ':Prod', function () {
+    gulp.task(taskName + ':Prod', function() {
         return server.run([data.path.prod + 'server.js'], {}, false);
     });
 };

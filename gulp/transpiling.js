@@ -14,7 +14,7 @@ module.exports = function(gulp, data, util, taskName) {
         });
     });
 
-    gulp.task(taskName + ':Dist', function() {
+    gulp.task(taskName, function() {
         var tsResult = tsProject.src()
             .pipe(removeCode({development: true}))
             .pipe(sourcemaps.init())
@@ -22,17 +22,6 @@ module.exports = function(gulp, data, util, taskName) {
 
         return tsResult.js
             .pipe(sourcemaps.write())
-            .pipe(gulp.dest(data.path.dist + 'frontend'));
-    });
-
-    gulp.task(taskName + ':E2e', function() {
-        var tsResult = tsProject.src()
-            .pipe(removeCode({development: true}))
-            .pipe(sourcemaps.init())
-            .pipe(tsProject());
-
-        return tsResult.js
-            .pipe(sourcemaps.write())
-            .pipe(gulp.dest(data.path.tmpE2e + 'frontend'));
+            .pipe(gulp.dest(process.env.destination + 'frontend'));
     });
 };

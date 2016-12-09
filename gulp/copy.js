@@ -4,11 +4,10 @@ module.exports = function(gulp, data, util, taskName) {
 
     let stream = require('event-stream'),
         removeCode = require('gulp-remove-code'),
-        replace = require('gulp-replace-task'),
         uglify = require('gulp-uglify'),
         strip = require('gulp-strip-comments');
 
-    gulp.task(taskName + ':App', function() {
+    gulp.task(taskName, function() {
         var app = gulp.src([
             data.path.frontend + 'app/**',
             '!./**/*.ts',
@@ -18,7 +17,7 @@ module.exports = function(gulp, data, util, taskName) {
             data.path.frontend + 'fonts/**',
             './src/favicon.ico'
         ], {base: './src'})
-            .pipe(gulp.dest(data.path.dist));
+            .pipe(gulp.dest(process.env.destination));
 
         // icons will not be displayed if index.html in app task (problem removeCode task)
         var index = gulp.src([
@@ -27,7 +26,7 @@ module.exports = function(gulp, data, util, taskName) {
         ], {base: './src'})
             .pipe(removeCode({development: true}))
             .pipe(strip())
-            .pipe(gulp.dest(data.path.dist));
+            .pipe(gulp.dest(process.env.destination));
 
         var scripts = gulp.src([
             'node_modules/core-js/client/shim.min.js',
@@ -35,22 +34,15 @@ module.exports = function(gulp, data, util, taskName) {
             'node_modules/systemjs/dist/system.src.js',
             'node_modules/zone.js/dist/zone.js'
         ])
-            .pipe(gulp.dest(data.path.dist + 'frontend/scripts/vendor'));
+            .pipe(gulp.dest(process.env.destination + 'frontend/scripts/vendor'));
 
         var backend = gulp.src([
             data.path.backend + '**',
             '!./**/*mocha.js',
         ], {base: data.path.backend})
-            .pipe(replace({
-                patterns: [
-                    {
-                        match: 'location',
-                        replacement: ''
-                    }
-                ]
-            }))
+
             .pipe(removeCode({development: true}))
-            .pipe(gulp.dest(data.path.dist));
+            .pipe(gulp.dest(process.env.destination));
 
         return stream.merge([app, index, scripts, backend]);
     });
@@ -117,63 +109,9 @@ module.exports = function(gulp, data, util, taskName) {
         var backend = gulp.src([
             data.path.backend + '**'
         ], {base: data.path.backend})
-            .pipe(replace({
-                patterns: [
-                    {
-                        match: 'location',
-                        replacement: ''
-                    }
-                ]
-            }))
             .pipe(removeCode({production: true}))
             .pipe(gulp.dest(data.path.prod));
 
         return stream.merge([index, favicon, imagFonts, scripts, backend]);
-    });
-
-    gulp.task(taskName + ':E2eApp', function() {
-        var app = gulp.src([
-            data.path.frontend + 'app/**',
-            '!./**/*.ts',
-            '!./**/*.scss',
-            data.path.frontend + 'images/**',
-            data.path.frontend + 'scripts/**',
-            data.path.frontend + 'fonts/**',
-            './src/favicon.ico'
-        ], {base: './src'})
-            .pipe(gulp.dest(data.path.tmpE2e));
-
-        // icons will not be displayed if index.html in app task (problem removeCode task)
-        var index = gulp.src([
-            './src/index.html',
-            './src/manifest.json',
-        ], {base: './src'})
-            .pipe(removeCode({development: true}))
-            .pipe(strip())
-            .pipe(gulp.dest(data.path.tmpE2e));
-
-        var scripts = gulp.src([
-            'node_modules/core-js/client/shim.min.js',
-            'node_modules/core-js/client/shim.min.js.map',
-            'node_modules/systemjs/dist/system.src.js',
-            'node_modules/zone.js/dist/zone.js'
-        ])
-            .pipe(gulp.dest(data.path.tmpE2e + 'frontend/scripts/vendor'));
-
-        var backend = gulp.src([
-            data.path.backend + '**',
-            '!./**/*mocha.js',
-        ], {base: data.path.backend})
-            .pipe(replace({
-                patterns: [
-                    {
-                        match: 'location',
-                        replacement: data.path.tmpE2e
-                    }
-                ]
-            }))
-            .pipe(gulp.dest(data.path.tmpE2e));
-
-        return stream.merge([app, index, scripts, backend]);
     });
 };
