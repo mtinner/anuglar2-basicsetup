@@ -1,4 +1,4 @@
-module.exports = function (gulp, data, util, taskName) {
+module.exports = function(gulp, data, util, taskName) {
 
     var ts = require('gulp-typescript'),
         tsProject = ts.createProject("tsconfig.json"),
@@ -6,15 +6,15 @@ module.exports = function (gulp, data, util, taskName) {
         exec = require('child_process').exec,
         removeCode = require('gulp-remove-code');
 
-    gulp.task(taskName + ':Prod', function (cb) {
-        exec('"node_modules/.bin/ngc" -p "tsconfig-aot.json"', function (err, stdout, stderr) {
+    gulp.task(taskName + ':Prod', function(cb) {
+        exec('"node_modules/.bin/ngc" -p "tsconfig-aot.json"', function(err, stdout, stderr) {
             console.log(stdout);
             console.log(stderr);
             cb(err);
         });
     });
 
-    gulp.task(taskName + ':Dist', function () {
+    gulp.task(taskName + ':Dist', function() {
         var tsResult = tsProject.src()
             .pipe(removeCode({development: true}))
             .pipe(sourcemaps.init())
@@ -25,17 +25,7 @@ module.exports = function (gulp, data, util, taskName) {
             .pipe(gulp.dest(data.path.dist + 'frontend'));
     });
 
-    gulp.task(taskName + ':Spec', function () {
-        var tsResult = tsProject.src()
-            .pipe(sourcemaps.init())
-            .pipe(tsProject());
-
-        return tsResult.js
-            .pipe(sourcemaps.write())
-            .pipe(gulp.dest(data.path.spec + 'frontend'));
-    });
-
-    gulp.task(taskName + ':E2e', function () {
+    gulp.task(taskName + ':E2e', function() {
         var tsResult = tsProject.src()
             .pipe(removeCode({development: true}))
             .pipe(sourcemaps.init())
