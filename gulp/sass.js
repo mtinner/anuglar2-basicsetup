@@ -4,10 +4,10 @@ module.exports = function(gulp, data, util, taskName) {
         stream = require('event-stream'),
         cleanCss = require('gulp-clean-css');
 
-    gulp.task(taskName + ':Dist', function() {
+    gulp.task(taskName, function() {
         return gulp.src(data.path.frontend + '**/*.scss')
             .pipe(sass().on('error', sass.logError))
-            .pipe(gulp.dest(data.path.dist + 'frontend'));
+            .pipe(gulp.dest(process.env.destination + 'frontend'));
     });
 
     gulp.task(taskName + ':Prod', function() {
@@ -22,12 +22,5 @@ module.exports = function(gulp, data, util, taskName) {
             .pipe(gulp.dest(data.path.prod));
 
         return stream.merge([inStyle, globalStyle]);
-
-    });
-
-    gulp.task(taskName + ':E2e', function() {
-        return gulp.src(data.path.frontend + '**/*.scss')
-            .pipe(sass().on('error', sass.logError))
-            .pipe(gulp.dest(data.path.tmpE2e + 'frontend'));
     });
 };

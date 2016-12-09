@@ -7,6 +7,11 @@ var gulp = require('gulp'),
 // @see https://docs.npmjs.com/files/package.json
 var pack = config.util.readJSON('package.json');
 
+let CONSTANTS = {
+    DIST: './src/.dist/',
+    TMP_E2E: './src/.tmpE2e/'
+};
+
 config(gulp, {
     // path to task's files, defaults to gulp dir.
     configPath: config.util.path.join('gulp', '*.js'),
@@ -17,12 +22,10 @@ config(gulp, {
                 frontend: './src/frontend/',
                 backend: './src/backend/',
                 prod: './.prod/',
-                tmpE2e: './src/.tmpE2e/',
                 tmpProd: './src/.tmpProd/',
                 aot: './src/.aot/',
                 e2e: './src/e2e/',
-                spec: './src/spec/',
-                dist: './src/.dist/'
+                spec: './src/spec/'
             },
             anyValue: 1,
             anyParams: []
@@ -32,9 +35,10 @@ config(gulp, {
 });
 
 gulp.task('Default', function(callback) {
+    process.env.destination = CONSTANTS.DIST;
     runSequence(
         'build',
-        'serve:Dist',
+        'serve',
         ['watch:All'],
         callback
     );
@@ -54,6 +58,7 @@ gulp.task('Prod', function(callback) {
 });
 
 gulp.task('UnitTest', function(callback) {
+    process.env.destination = CONSTANTS.DIST;
     runSequence(
         'build',
         'karma:Frontend',
@@ -62,23 +67,25 @@ gulp.task('UnitTest', function(callback) {
 });
 
 gulp.task('E2e', function(callback) {
+    process.env.destination = CONSTANTS.TMP_E2E;
     runSequence(
-        'clean:E2e',
-        ['transpiling:E2e', 'sass:E2e'],
-        ['copy:E2eApp'],
-        'serve:E2e',
+        'clean',
+        ['transpiling', 'sass'],
+        ['copy'],
+        'serve',
         'angularProtractor',
         callback
     );
 });
 
 gulp.task('build', function(callback) {
+    process.env.destination = CONSTANTS.DIST;
     runSequence(
         'lint:Es',
         'lint:Ts',
-        'clean:Dist',
-        ['transpiling:Dist', 'sass:Dist'],
-        ['copy:App'],
+        'clean',
+        ['transpiling', 'sass'],
+        ['copy'],
         callback
     );
 });
