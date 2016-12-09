@@ -33,20 +33,9 @@ config(gulp, {
 
 gulp.task('Default', function(callback) {
     runSequence(
-        'lint:Es',
-        'lint:Ts',
-        'Build',
+        'build',
         'serve:Dist',
         ['watch:All'],
-        callback
-    );
-});
-
-gulp.task('Build', function(callback) {
-    runSequence(
-        'clean:Dist',
-        ['transpiling:Dist', 'sass:Dist'],
-        ['copy:App'],
         callback
     );
 });
@@ -64,18 +53,9 @@ gulp.task('Prod', function(callback) {
     );
 });
 
-gulp.task('Spec', function(callback) {
+gulp.task('UnitTest', function(callback) {
     runSequence(
-        'clean:Spec',
-        ['transpiling:Spec'],
-        'connect:Spec',
-        callback
-    );
-});
-
-gulp.task('TestFrontend', function(callback) {
-    runSequence(
-        'Build',
+        'build',
         'karma:Frontend',
         callback
     );
@@ -88,6 +68,17 @@ gulp.task('E2e', function(callback) {
         ['copy:E2eApp'],
         'serve:E2e',
         'angularProtractor',
+        callback
+    );
+});
+
+gulp.task('build', function(callback) {
+    runSequence(
+        'lint:Es',
+        'lint:Ts',
+        'clean:Dist',
+        ['transpiling:Dist', 'sass:Dist'],
+        ['copy:App'],
         callback
     );
 });

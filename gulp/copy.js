@@ -5,6 +5,7 @@ module.exports = function(gulp, data, util, taskName) {
     let stream = require('event-stream'),
         removeCode = require('gulp-remove-code'),
         replace = require('gulp-replace-task'),
+        uglify = require('gulp-uglify'),
         strip = require('gulp-strip-comments');
 
     gulp.task(taskName + ':App', function() {
@@ -106,9 +107,11 @@ module.exports = function(gulp, data, util, taskName) {
         ], {base: './src/frontend'})
             .pipe(gulp.dest(data.path.prod));
 
-        var zone = gulp.src([
+        var scripts = gulp.src([
             './node_modules/zone.js/dist/zone.min.js',
+            './node_modules/reflect-metadata/Reflect.js',
         ])
+            .pipe(uglify())
             .pipe(gulp.dest(data.path.prod + 'scripts'));
 
         var backend = gulp.src([
@@ -125,7 +128,7 @@ module.exports = function(gulp, data, util, taskName) {
             .pipe(removeCode({production: true}))
             .pipe(gulp.dest(data.path.prod));
 
-        return stream.merge([index, favicon, imagFonts, zone, backend]);
+        return stream.merge([index, favicon, imagFonts, scripts, backend]);
     });
 
     gulp.task(taskName + ':E2eApp', function() {

@@ -30,21 +30,18 @@
 </body>
 <!--endRemoveIf(production)-->
 
-
 <!--removeIf(development)-->
 <link rel="stylesheet" href="styles/all.css">
-<script src="scripts/zone.min.js"></script>
-<!--
-<script src="scripts/shim.min.js"></script>
--->
-
-<script>window.module = 'aot';</script>
-
-<link rel="manifest" href="/manifest.json">
 </head>
 <body>
 <my-app>Loading...</my-app>
-</body>
+
+<script src="scripts/Reflect.js"></script>
+<script src="scripts/zone.min.js"></script>
+<script>window.module = 'aot';</script>
 <script src="scripts/build.js"></script>
+<link rel="manifest" href="/manifest.json">
+
+</body>
 <!--endRemoveIf(development)-->
 </html>
