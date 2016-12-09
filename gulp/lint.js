@@ -1,4 +1,4 @@
-module.exports = function (gulp, data, util, taskName) {
+module.exports = function(gulp, data, util, taskName) {
 
     var tslint = require('gulp-tslint'),
         eslint = require('gulp-eslint');
