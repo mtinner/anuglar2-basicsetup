@@ -2,7 +2,6 @@
 
 ## Usage
 * Install packages: `npm i`
-* Install typings: `npm run typings`
 
 ## Main NPM Tasks
 * Build & start dev mode: `gulp Default` (http://:localhost:8080/)
