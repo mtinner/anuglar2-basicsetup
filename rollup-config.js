@@ -4,7 +4,7 @@ import uglify      from 'rollup-plugin-uglify'
 
 export default {
     entry: 'src/.tmpProd/main.js',
-    dest: 'prod/scripts/build.js', // output a single application bundle
+    dest: '.prod/scripts/build.js', // output a single application bundle
     sourceMap: false,
     format: 'iife',
     plugins: [

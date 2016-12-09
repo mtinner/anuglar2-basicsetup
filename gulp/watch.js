@@ -9,7 +9,7 @@ module.exports = function (gulp, data, util, taskName) {
             data.path.frontend + '**/*.scss',
             data.path.frontend + '**/*.ts'
         ], function(event) {
-            runSequence('Build', reload(event));
+            runSequence('build', reload(event));
         });
     });
 

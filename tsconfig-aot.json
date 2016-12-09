@@ -15,12 +15,13 @@
   ],
   "files": [
     "src/.tmpProd/components/app.module.ts",
-    "src/.tmpProd/main.ts",
-    "typings/globals/core-js/index.d.ts",
-    "typings/globals/node/index.d.ts"
+    "src/.tmpProd/main.ts"
   ],
   "angularCompilerOptions": {
     "genDir": "src/.aot",
     "skipMetadataEmit": true
-  }
+  },
+  "typeRoots": [
+    "./node_modules/@types"
+  ]
 }

@@ -15,7 +15,7 @@ node_modules
 #Deployment
 .dist
 .tmpProd
-prod
+.prod
 
 #TypeScript
 src/frontend/**/*.js
