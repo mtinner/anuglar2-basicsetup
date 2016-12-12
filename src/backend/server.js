@@ -45,6 +45,6 @@ app.get('*', function(req, res) {
 });
 //endRemoveIf(development)
 
-let port = 8080;
+let port = process.env.PORT || 8080;
 app.listen(port);
 console.log('API listening on port ' + port + ' ...');
