@@ -25,14 +25,14 @@ module.exports = function(gulp, data, util, taskName) {
             data.path.frontend + 'images/**',
             data.path.frontend + 'scripts/**',
             data.path.frontend + 'fonts/**',
-            './src/favicon.ico'
+            './src/**/favicon.ico'
         ], {base: './src'})
             .pipe(gulp.dest(process.env.destination));
 
         // icons will not be displayed if index.html in app task (problem removeCode task)
         var index = gulp.src([
-            './src/index.html',
-            './src/manifest.json',
+            './src/**/index.html',
+            './src/**/manifest.json',
         ], {base: './src'})
             .pipe(removeCode({development: true}))
             .pipe(strip())
@@ -83,16 +83,16 @@ module.exports = function(gulp, data, util, taskName) {
 
     gulp.task(taskName + ':Prod', function() {
         var index = gulp.src([
-            './src/index.html',
+            './src/**/index.html',
             './src/**/manifest.json'
-        ], {base: './src'})
+        ], {base: './src/frontend'})
             .pipe(removeCode({production: true}))
             .pipe(strip())
             .pipe(gulp.dest(data.path.prod));
 
         var favicon = gulp.src([
-            './src/favicon.ico',
-        ], {base: './src'})
+            './src/**/favicon.ico',
+        ], {base: './src/frontend'})
             .pipe(gulp.dest(data.path.prod));
 
         var imagFonts = gulp.src([

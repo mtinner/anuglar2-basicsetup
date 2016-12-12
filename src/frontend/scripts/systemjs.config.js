@@ -5,7 +5,7 @@
 (function(global) {
     // map tells the System loader where to look for things
     var map = {
-        'app': 'frontend', // 'dist',
+        'app': '', // 'dist',
         '@angular': 'npm:@angular',
         'rxjs': 'npm:rxjs'
     };
