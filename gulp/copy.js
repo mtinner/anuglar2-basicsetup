@@ -5,6 +5,7 @@ module.exports = function(gulp, data, util, taskName) {
     let stream = require('event-stream'),
         removeCode = require('gulp-remove-code'),
         uglify = require('gulp-uglify'),
+        replace = require('gulp-replace'),
         strip = require('gulp-strip-comments');
 
     gulp.task(taskName + ':Backend', function() {
@@ -111,6 +112,7 @@ module.exports = function(gulp, data, util, taskName) {
             data.path.backend + '**'
         ], {base: data.path.backend})
             .pipe(removeCode({production: true}))
+            .pipe(replace(/%%location%%/g, data.path.prod))
             .pipe(gulp.dest(data.path.prod));
 
         return stream.merge([index, favicon, imagFonts, scripts, backend]);

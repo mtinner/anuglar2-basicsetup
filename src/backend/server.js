@@ -24,10 +24,10 @@ app.use(require('connect-livereload')());
 //endRemoveIf(production)
 
 //removeIf(development)
-app.use('/images', express.static('./.prod/images'));
-app.use('/styles', express.static('./.prod/styles'));
-app.use('/scripts', express.static('./.prod/scripts'));
-app.use('/fonts', express.static('./.prod/fonts'));
+app.use('/images', express.static('%%location%%images'));
+app.use('/styles', express.static('%%location%%styles'));
+app.use('/scripts', express.static('%%location%%scripts'));
+app.use('/fonts', express.static('%%location%%fonts'));
 //endRemoveIf(development)
 
 app.get('*', function(req, res) {
