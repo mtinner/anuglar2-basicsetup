@@ -14,7 +14,7 @@ let CONSTANTS = {
 
 config(gulp, {
     // path to task's files, defaults to gulp dir.
-    configPath: config.util.path.join('gulp', '*.js'),
+    configPath: config.util.path.join('gulp', '*.*'),
     // data passed into config task.
     data: Object.assign(
         {
@@ -39,7 +39,7 @@ gulp.task('Default', function(callback) {
     runSequence(
         'build',
         'serve',
-        ['watch:All'],
+        ['watch:Typescript', 'watch:Sass', 'watch:Html'],
         callback
     );
 });
@@ -71,7 +71,7 @@ gulp.task('E2e', function(callback) {
     runSequence(
         'clean',
         ['transpiling', 'sass'],
-        ['copy'],
+        ['copy:Backend', 'copy:App'],
         'serve',
         'angularProtractor',
         callback
@@ -85,7 +85,7 @@ gulp.task('build', function(callback) {
         'lint:Ts',
         'clean',
         ['transpiling', 'sass'],
-        ['copy'],
+        ['copy:Backend', 'copy:App'],
         callback
     );
 });
