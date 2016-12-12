@@ -9,6 +9,7 @@ app.use(bodyParser.json());
 app.use(compression());
 
 //removeIf(production)
+app.use(require('connect-livereload')());
 app.use('/scripts', express.static(__dirname + '/frontend/scripts'));
 app.use('/styles', express.static(__dirname + '/frontend/styles'));
 app.use('/app', express.static(__dirname + '/frontend/app'));
@@ -26,7 +27,6 @@ app.get('/manifest.json', function(req, res) {
 app.get('*', function(req, res) {
     res.sendFile(__dirname + '/frontend/index.html');
 });
-app.use(require('connect-livereload')());
 //endRemoveIf(production)
 
 //removeIf(development)
