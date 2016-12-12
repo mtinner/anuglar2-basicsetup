@@ -7,7 +7,16 @@ module.exports = function(gulp, data, util, taskName) {
         uglify = require('gulp-uglify'),
         strip = require('gulp-strip-comments');
 
-    gulp.task(taskName, function() {
+    gulp.task(taskName + ':Backend', function() {
+        return gulp.src([
+            data.path.backend + '**',
+        ], {base: data.path.backend})
+
+            .pipe(removeCode({development: true}))
+            .pipe(gulp.dest(process.env.destination));
+    });
+
+    gulp.task(taskName + ':App', function() {
         var app = gulp.src([
             data.path.frontend + 'app/**',
             '!./**/*.ts',
@@ -36,17 +45,9 @@ module.exports = function(gulp, data, util, taskName) {
         ])
             .pipe(gulp.dest(process.env.destination + 'frontend/scripts/vendor'));
 
-        var backend = gulp.src([
-            data.path.backend + '**',
-            '!./**/*mocha.js',
-        ], {base: data.path.backend})
 
-            .pipe(removeCode({development: true}))
-            .pipe(gulp.dest(process.env.destination));
-
-        return stream.merge([app, index, scripts, backend]);
+        return stream.merge([app, index, scripts]);
     });
-
 
     gulp.task(taskName + ':tmpProd', function() {
         var app = gulp.src([

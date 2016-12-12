@@ -1,7 +1,6 @@
 module.exports = function(gulp, data, util, taskName) {
-
-    var tslint = require('gulp-tslint'),
-        eslint = require('gulp-eslint');
+    var tslint = require('gulp-tslint');
+    var eslint = require('gulp-eslint');
 
     gulp.task(taskName + ':Ts', () =>
         gulp.src(data.path.frontend + '**/*.ts')
