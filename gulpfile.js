@@ -36,6 +36,8 @@ config(gulp, {
 
 gulp.task('Default', function(callback) {
     process.env.destination = CONSTANTS.DIST;
+    process.env.PORT = 3000;
+
     runSequence(
         'build',
         'serve',
@@ -59,6 +61,7 @@ gulp.task('Prod', function(callback) {
 
 gulp.task('UnitTest', function(callback) {
     process.env.destination = CONSTANTS.DIST;
+
     runSequence(
         'build',
         'karma:Frontend',
@@ -68,6 +71,8 @@ gulp.task('UnitTest', function(callback) {
 
 gulp.task('E2e', function(callback) {
     process.env.destination = CONSTANTS.TMP_E2E;
+    process.env.PORT = 9000;
+
     runSequence(
         'clean',
         ['transpiling', 'sass'],
